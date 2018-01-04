@@ -43,7 +43,7 @@ public class JumpTest extends Base {
             double jumpRatio = JUMP_RATIO * 1080 / getRealSize().x;
 
             int total = 0;
-            int centerHit = 0;
+            int centerHit = 1;
             for (int i = 0; i < 5000; i++) {
                 total++;
                 int[] myPos = findMyPos(screenshot());
@@ -67,6 +67,8 @@ public class JumpTest extends Base {
                                 centerY = nextCenter[1] + 48;
                             }
                         }
+                        float rate = (float) centerHit / total;
+                        System.out.println("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%");
                         int distance = (int) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio);
                         click_random(getRealSize().x / 2, getRealSize().y / 2, distance, 2000 + random.nextInt(1000));
                     }
