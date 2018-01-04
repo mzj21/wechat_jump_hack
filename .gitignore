@@ -2,10 +2,6 @@
 bin/
 gen/
 
-# Ant
-build.xml
-local.properties
-
 # Maven
 target/
 pom.xml.*
