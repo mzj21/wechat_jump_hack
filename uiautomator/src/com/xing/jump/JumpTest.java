@@ -1,12 +1,14 @@
 package com.xing.jump;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.widget.TextView;
 
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.core.UiSelector;
 
+import java.text.DecimalFormat;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,7 @@ import java.util.Queue;
 import util.CmdUtil;
 
 public class JumpTest extends Base {
-    static final float JUMP_RATIO = 1.35f;
+    private static float jump_ratio = 1.3413f;
 
     public JumpTest(UiDevice device) {
         super(device);
@@ -23,6 +25,7 @@ public class JumpTest extends Base {
 
     public void doMission() {
         try {
+            DecimalFormat decimalFormat = new DecimalFormat(".0000");
             CmdUtil.execCmd("am force-stop com.tencent.mm");
             sleep(1000);
             CmdUtil.execCmd("am start com.tencent.mm/com.tencent.mm.ui.LauncherUI");
@@ -39,12 +42,12 @@ public class JumpTest extends Base {
             swipe();
             sleep(1000);
             click(new UiObject(new UiSelector().className(TextView.class).text("跳一跳").packageName("com.tencent.mm")), 5000);
-            click(getRealSize().x / 2, (int) (getRealSize().y * 1920 / getRealSize().y * 0.796), 1000);
-            double jumpRatio = JUMP_RATIO * 1080 / getRealSize().x;
-
+            Point point = getRealSize();
+            click(point.x / 2, (int) (point.y * 1920 / point.y * 0.796), 1000);
+            double jumpRatio = 1080 / point.x;
             int total = 0;
             int centerHit = 1;
-            for (int i = 0; i < 5000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 total++;
                 int[] myPos = findMyPos(screenshot());
                 if (myPos != null) {
@@ -68,9 +71,9 @@ public class JumpTest extends Base {
                             }
                         }
                         float rate = (float) centerHit / total;
-                        System.out.println("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%");
-                        int distance = (int) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio);
-                        click_random(getRealSize().x / 2, getRealSize().y / 2, distance, 2000 + random.nextInt(1000));
+                        log("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%" + ", jump_ratio = " + decimalFormat.format(jump_ratio));
+                        int distance = (int) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio * jump_ratio);
+                        click(point.x / 4 + random.nextInt(point.x / 2), point.y / 4 + random.nextInt(point.y / 2), distance, 2000 + random.nextInt(1000));
                     }
                 } else {
                     break;
@@ -118,7 +121,6 @@ public class JumpTest extends Base {
             int g = (pixel & 0xff00) >> 8;
             int b = (pixel & 0xff);
             if (r == 255 && g == 255 && b == 255) {
-                //System.out.println("("+i+", "+j+")");
                 if (i < ret[2]) {
                     ret[2] = i;
                     ret[3] = j;
@@ -137,10 +139,10 @@ public class JumpTest extends Base {
                     ret[0] = i;
                     ret[1] = j;
                 }
-                queue.add(new int[]{i - 1, j});
-                queue.add(new int[]{i + 1, j});
-                queue.add(new int[]{i, j - 1});
-                queue.add(new int[]{i, j + 1});
+                queue.add(buildArray(i - 1, j));
+                queue.add(buildArray(i + 1, j));
+                queue.add(buildArray(i, j - 1));
+                queue.add(buildArray(i, j + 1));
             }
         }
         return ret;
@@ -201,8 +203,7 @@ public class JumpTest extends Base {
                         }
                     }
                     if (maxX - minX <= 45 && maxX - minX >= 35 && maxY - minY <= 30 && maxY - minY >= 20) {
-                        int[] ret = {(minX + maxX) / 2, (minY + maxY) / 2};
-                        return ret;
+                        return buildArray((minX + maxX) / 2, (minY + maxY) / 2);
                     } else {
                         return null;
                     }
@@ -382,5 +383,9 @@ public class JumpTest extends Base {
 
     public static boolean match(int r, int g, int b, int rt, int gt, int bt, int t) {
         return r > rt - t && r < rt + t && g > gt - t && g < gt + t && b > bt - t && b < bt + t;
+    }
+
+    public static void log(String str) {
+        System.out.print(str + "\n");
     }
 }
