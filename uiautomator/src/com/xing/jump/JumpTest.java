@@ -43,7 +43,7 @@ public class JumpTest extends Base {
             double jumpRatio = JUMP_RATIO * 1080 / getRealSize().x;
 
             int total = 0;
-            int centerHit = 0;
+            int centerHit = 1;
             for (int i = 0; i < 5000; i++) {
                 total++;
                 int[] myPos = findMyPos(screenshot());
@@ -58,7 +58,6 @@ public class JumpTest extends Base {
                             centerX = whitePoint[0];
                             centerY = whitePoint[1];
                             centerHit++;
-                            System.out.println("find whitePoint, succ, (" + centerX + ", " + centerY + "), centerHit: " + centerHit+ ", total: " + total);
                         } else {
                             if (nextCenter[2] != Integer.MAX_VALUE && nextCenter[4] != Integer.MIN_VALUE) {
                                 centerX = (nextCenter[2] + nextCenter[4]) / 2;
@@ -68,8 +67,10 @@ public class JumpTest extends Base {
                                 centerY = nextCenter[1] + 48;
                             }
                         }
+                        float rate = (float) centerHit / total;
+                        System.out.println("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%");
                         int distance = (int) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio);
-                        click(getRealSize().x / 2, getRealSize().y / 2, distance, 2000 + random.nextInt(1000));
+                        click_random(getRealSize().x / 2, getRealSize().y / 2, distance, 2000 + random.nextInt(1000));
                     }
                 } else {
                     break;
@@ -267,7 +268,6 @@ public class JumpTest extends Base {
                 if (r < minR || r > maxR || g < minG || g > maxG || b < minB || b > maxB) {
                     ret[0] = i;
                     ret[1] = j;
-                    System.out.println("top, x: " + i + ", y: " + j);
                     for (int k = 0; k < 5; k++) {
                         pixel = bitmap.getPixel(i, j + k);
                         targetR += (pixel & 0xff0000) >> 16;
@@ -316,9 +316,6 @@ public class JumpTest extends Base {
             int g = (pixel & 0xff00) >> 8;
             int b = (pixel & 0xff);
             matchMap[i][j] = match(r, g, b, targetR, targetG, targetB, 16);
-            if (i == ret[0] && j == ret[1]) {
-                System.out.println(matchMap[i][j]);
-            }
             if (matchMap[i][j]) {
                 if (i < ret[2]) {
                     ret[2] = i;
