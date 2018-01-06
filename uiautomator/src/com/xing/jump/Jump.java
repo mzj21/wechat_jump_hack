@@ -2,10 +2,12 @@ package com.xing.jump;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
 import com.android.uiautomator.core.UiSelector;
 
 import java.text.DecimalFormat;
@@ -16,38 +18,47 @@ import java.util.Queue;
 
 import util.CmdUtil;
 
-public class JumpTest extends Base {
-    private static float jump_ratio = 1.3413f;
+public class Jump extends Base {
+    private static float jump_ratio = 1.345f;//98%
+    private boolean defult;
+    private int jumpTime;
 
-    public JumpTest(UiDevice device) {
-        super(device);
-    }
-
-    public void doMission() {
+    public void test() throws UiObjectNotFoundException {
+        init();
+        Bundle bundle = getParams();//获取键值对
+        log(bundle.getString("defult"));
+        if (!TextUtils.isEmpty(bundle.getString("defult"))) {
+            defult = Boolean.parseBoolean(bundle.getString("defult"));
+        }
+        if (!TextUtils.isEmpty(bundle.getString("jumpTime"))) {
+            jumpTime = Integer.parseInt(bundle.getString("jumpTime"));
+        }
         try {
             DecimalFormat decimalFormat = new DecimalFormat(".0000");
-            CmdUtil.execCmd("am force-stop com.tencent.mm");
-            sleep(1000);
-            CmdUtil.execCmd("am start com.tencent.mm/com.tencent.mm.ui.LauncherUI");
-            UiObject ui_1 = new UiObject(new UiSelector().className(TextView.class).text("微信").packageName("com.tencent.mm"));
-            UiObject ui_2 = new UiObject(new UiSelector().className(TextView.class).text("通讯录").packageName("com.tencent.mm"));
-            UiObject ui_3 = new UiObject(new UiSelector().className(TextView.class).text("发现").packageName("com.tencent.mm"));
-            UiObject ui_4 = new UiObject(new UiSelector().className(TextView.class).text("我").packageName("com.tencent.mm"));
-            long endtime = System.currentTimeMillis() + 30 * 1000;
-            while (endtime > System.currentTimeMillis() && (!ui_1.exists() || !ui_2.exists() || !ui_3.exists() || !ui_4.exists())) {
-            }
-            if (!ui_1.exists() || !ui_2.exists() || !ui_3.exists() || !ui_4.exists()) {
-                return;
-            }
-            swipe();
-            sleep(1000);
-            click(new UiObject(new UiSelector().className(TextView.class).text("跳一跳").packageName("com.tencent.mm")), 5000);
             Point point = getRealSize();
-            click(point.x / 2, (int) (point.y * 1920 / point.y * 0.796), 1000);
+            if (defult) {
+                CmdUtil.execCmd("am force-stop com.tencent.mm");
+                sleep(1000);
+                CmdUtil.execCmd("am start com.tencent.mm/com.tencent.mm.ui.LauncherUI");
+                UiObject ui_1 = new UiObject(new UiSelector().className(TextView.class).text("微信").packageName("com.tencent.mm"));
+                UiObject ui_2 = new UiObject(new UiSelector().className(TextView.class).text("通讯录").packageName("com.tencent.mm"));
+                UiObject ui_3 = new UiObject(new UiSelector().className(TextView.class).text("发现").packageName("com.tencent.mm"));
+                UiObject ui_4 = new UiObject(new UiSelector().className(TextView.class).text("我").packageName("com.tencent.mm"));
+                long endtime = System.currentTimeMillis() + 30 * 1000;
+                while (endtime > System.currentTimeMillis() && (!ui_1.exists() || !ui_2.exists() || !ui_3.exists() || !ui_4.exists())) {
+                }
+                if (!ui_1.exists() || !ui_2.exists() || !ui_3.exists() || !ui_4.exists()) {
+                    return;
+                }
+                swipe();
+                sleep(1000);
+                click(new UiObject(new UiSelector().className(TextView.class).text("跳一跳").packageName("com.tencent.mm")), 5000);
+                click(point.x / 2, (int) (point.y * 1920 / point.y * 0.796), 1000);
+            }
             double jumpRatio = 1080 / point.x;
             int total = 0;
             int centerHit = 1;
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < jumpTime; i++) {
                 total++;
                 int[] myPos = findMyPos(screenshot());
                 if (myPos != null) {
@@ -72,13 +83,16 @@ public class JumpTest extends Base {
                         }
                         float rate = (float) centerHit / total;
                         log("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%" + ", jump_ratio = " + decimalFormat.format(jump_ratio));
-                        int distance = (int) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio * jump_ratio);
-                        click(point.x / 4 + random.nextInt(point.x / 2), point.y / 4 + random.nextInt(point.y / 2), distance, 2000 + random.nextInt(1000));
+                        long distance = (long) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio * jump_ratio);
+                        int x = point.x / 2 + random.nextInt(point.x / 4);
+                        int y = point.y / 2 + random.nextInt(point.y / 4);
+                        click_random(x, y, distance, 2000 + random.nextInt(1000));
                     }
                 } else {
                     break;
                 }
             }
+            click_random(point.x / 2 + random.nextInt(point.x / 4), point.y / 2 + random.nextInt(point.y / 4), 5000, 2000 + random.nextInt(1000));
         } catch (Exception e) {
             e.printStackTrace();
         }

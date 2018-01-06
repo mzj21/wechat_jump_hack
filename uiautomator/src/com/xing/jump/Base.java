@@ -9,17 +9,18 @@ import android.view.Display;
 
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Random;
 
-public class Base {
-    protected final UiDevice device;
-    protected final Random random;
+public class Base extends UiAutomatorTestCase {
+    protected UiDevice device;
+    protected Random random;
 
-    protected Base(UiDevice device) {
-        this.device = device;
+    protected void init() {
+        device = getUiDevice();
         random = new Random();
     }
 
@@ -143,11 +144,8 @@ public class Base {
         touchUpMethod.setAccessible(true);
 
         touchDownMethod.invoke(interactionController, x, y);
-        long endtime = System.currentTimeMillis() + touchTime;
-        while (endtime >= System.currentTimeMillis()) {
-            touchMoveMethod.invoke(interactionController, x + random.nextInt(20), y + random.nextInt(20));
-        }
-        touchUpMethod.invoke(interactionController, x, y);
+        SystemClock.sleep(touchTime);
+        touchUpMethod.invoke(interactionController,x + random.nextInt(5), y + random.nextInt(5));
         if (millis > 0) {
             SystemClock.sleep(millis);
         }
