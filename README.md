@@ -1,4 +1,5 @@
-# 微信——跳一跳自动辅助
+# 微信——跳一跳自动辅助，目前点击成功率为98%
+![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/1.png?raw=true)
 ## 介绍
 * 图片识别技术引用 https://github.com/burningcl/wechat_jump_hack
 * 自动由uiautomator实现
