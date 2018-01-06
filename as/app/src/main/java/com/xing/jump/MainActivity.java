@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-            CmdUtil.execCmd("uiautomator runtest Jump.jar -c dowork.Jump");
+            CmdUtil.execCmd("uiautomator runtest Jump.jar -c com.xing.jump.Jump -e defult true -e jumpTime 500");
 //            CmdUtil.execCmd("am instrument --user 0 -w -r -e debug false -e class com.xing.jump.ExampleInstrumentedTest com.xing.jump.test/android.support.test.runner.AndroidJUnitRunner");
         }
     }
