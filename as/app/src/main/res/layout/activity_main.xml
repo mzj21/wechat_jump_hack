@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/start"
+        android:id="@+id/start1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始" />
+        android:text="@string/start1" />
+
+    <Button
+        android:id="@+id/start2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start2" />
 
 </LinearLayout>

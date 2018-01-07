@@ -1,7 +1,9 @@
 package com.xing.jump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -16,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         copyAssets(this, "Jump.jar", "/data/local/tmp");
-        findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.start1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CmdUtil.canRootPermission()) {
@@ -26,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(R.id.start2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            }
+        });
     }
 
     class UiautomatorThread extends Thread {
@@ -33,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             super.run();
             CmdUtil.execCmd("uiautomator runtest Jump.jar -c com.xing.jump.Jump -e defult true -e jumpTime 500");
-//            CmdUtil.execCmd("am instrument --user 0 -w -r -e debug false -e class com.xing.jump.ExampleInstrumentedTest com.xing.jump.test/android.support.test.runner.AndroidJUnitRunner");
+//            CmdUtil.execCmd("am instrument --user 0 -w -r -e debug false -e class com.xing.jump.Jump com.xing.jump.test/android.support.test.runner.AndroidJUnitRunner");
         }
     }
 

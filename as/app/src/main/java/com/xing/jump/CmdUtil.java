@@ -1,6 +1,7 @@
 package com.xing.jump;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -8,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CmdUtil {
+    public static final String TAG = "CmdUtil";
     public static final String COMMAND_SU = "su";
+    public static final String COMMAND_SH = "shell";
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 
@@ -31,6 +34,11 @@ public class CmdUtil {
     }
 
     public static CommandResult execCmd(String cmd) {
+        return execCmd(cmd, true);
+    }
+
+    public static CommandResult execCmd(String cmd, boolean root) {
+        Log.d(TAG, "execCmd: " + cmd);
         int result = -1;
         Process process = null;
         BufferedReader successResult = null;
@@ -39,7 +47,7 @@ public class CmdUtil {
         StringBuilder errorMsg = null;
         DataOutputStream os = null;
         try {
-            process = Runtime.getRuntime().exec(COMMAND_SU);
+            process = Runtime.getRuntime().exec(root ? COMMAND_SU : COMMAND_SH);
             os = new DataOutputStream(process.getOutputStream());
             os.write(cmd.getBytes());
             os.writeBytes(COMMAND_LINE_END);
