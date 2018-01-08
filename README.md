@@ -1,11 +1,10 @@
-# 微信——跳一跳自动辅助，目前点击成功率为98%
+# 微信——跳一跳自动辅助
+1月8号更新，降低了点击成功率提交成绩![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/2.png?raw=true)
 ![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/1.png?raw=true)
 ## 介绍
 * 图片识别技术引用 https://github.com/burningcl/wechat_jump_hack
 * 自动由uiautomator实现
 * 分为两个版本 PC运行版(需要安装驱动)和手机安装版(需要Root)
-## 1月8号更新后
-* 为了提交降低了点击成功率
 ![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/2.png?raw=true)
 ## 如何使用
 ### PC运行版
