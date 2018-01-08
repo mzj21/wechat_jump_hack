@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Jump</string>
     <string name="label">微信跳一跳自动服务</string>
-    <string name="description"> </string>
-    <string name="start1">开始--需要Root</string>
-    <string name="start2">开始--需要开启无障碍服务</string>
+    <string name="description">请打开微信初始界面，程序将自动运行</string>
+    <string name="start1">开始,uiautomator(需要Root)</string>
+    <string name="start2">开始,需要开启无障碍服务</string>
 </resources>

@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class CmdUtil {
     public static final String TAG = "CmdUtil";
     public static final String COMMAND_SU = "su";
-    public static final String COMMAND_SH = "shell";
+    public static final String COMMAND_SH = "sh";
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 

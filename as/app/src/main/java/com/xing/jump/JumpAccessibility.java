@@ -38,8 +38,8 @@ public class JumpAccessibility extends AccessibilityService {
                 if (existsByText("跳一跳")) {
                     sleep(1000);
                     getAccessibilityNodeInfoByText("跳一跳").getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
-//                    sleep(5000);
                     CmdUtil.execCmd("input tap " + getRealSize().x / 2 + " " + getRealSize().y * 1920 / getRealSize().y * 0.796, false);
+//                    sleep(5000);
                 }
                 break;
         }

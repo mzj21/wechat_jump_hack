@@ -110,48 +110,6 @@ public class Base extends UiAutomatorTestCase {
     }
 
     /**
-     * 点击
-     *
-     * @param x         X坐标
-     * @param y         Y坐标
-     * @param touchTime 触碰时间，单位毫秒
-     * @param millis    休眠时间，单位毫秒
-     */
-    protected void click_random(int x, int y, long touchTime, long millis) throws Exception {
-        Class<?> InteractionControllerClass;
-        Class<?> UiAutomatorBridgeClass;
-        Method getAutomatorBridgeMethod;
-        Method getInteractionControllerMethod;
-        Method touchDownMethod;
-        Method touchUpMethod;
-        Method touchMoveMethod;
-
-        getAutomatorBridgeMethod = device.getClass().getDeclaredMethod("getAutomatorBridge");
-        getAutomatorBridgeMethod.setAccessible(true);
-        Object UiAutomatorBridge = getAutomatorBridgeMethod.invoke(device);
-
-        UiAutomatorBridgeClass = Class.forName("com.android.uiautomator.core.UiAutomatorBridge");
-        getInteractionControllerMethod = UiAutomatorBridgeClass.getDeclaredMethod("getInteractionController");
-        getInteractionControllerMethod.setAccessible(true);
-        Object interactionController = getInteractionControllerMethod.invoke(UiAutomatorBridge);
-
-        InteractionControllerClass = Class.forName("com.android.uiautomator.core.InteractionController");
-        touchDownMethod = InteractionControllerClass.getDeclaredMethod("touchDown", int.class, int.class);
-        touchDownMethod.setAccessible(true);
-        touchMoveMethod = InteractionControllerClass.getDeclaredMethod("touchMove", int.class, int.class);
-        touchMoveMethod.setAccessible(true);
-        touchUpMethod = InteractionControllerClass.getDeclaredMethod("touchUp", int.class, int.class);
-        touchUpMethod.setAccessible(true);
-
-        touchDownMethod.invoke(interactionController, x, y);
-        SystemClock.sleep(touchTime);
-        touchUpMethod.invoke(interactionController,x + random.nextInt(5), y + random.nextInt(5));
-        if (millis > 0) {
-            SystemClock.sleep(millis);
-        }
-    }
-
-    /**
      * 获取屏幕精确尺寸
      */
     protected Point getRealSize() throws Exception {

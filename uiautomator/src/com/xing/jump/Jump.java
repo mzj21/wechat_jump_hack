@@ -26,13 +26,13 @@ public class Jump extends Base {
     public void test() throws UiObjectNotFoundException {
         init();
         Bundle bundle = getParams();//获取键值对
-        log(bundle.getString("defult"));
         if (!TextUtils.isEmpty(bundle.getString("defult"))) {
             defult = Boolean.parseBoolean(bundle.getString("defult"));
         }
         if (!TextUtils.isEmpty(bundle.getString("jumpTime"))) {
             jumpTime = Integer.parseInt(bundle.getString("jumpTime"));
         }
+        int a = 35;
         try {
             DecimalFormat decimalFormat = new DecimalFormat(".0000");
             Point point = getRealSize();
@@ -82,17 +82,17 @@ public class Jump extends Base {
                             }
                         }
                         float rate = (float) centerHit / total;
-                        log("centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%" + ", jump_ratio = " + decimalFormat.format(jump_ratio));
                         long distance = (long) (Math.sqrt((centerX - myPos[0]) * (centerX - myPos[0]) + (centerY - myPos[1]) * (centerY - myPos[1])) * jumpRatio * jump_ratio);
-                        int x = point.x / 2 + random.nextInt(point.x / 4);
-                        int y = point.y / 2 + random.nextInt(point.y / 4);
-                        click_random(x, y, distance, 2000 + random.nextInt(1000));
+                        int x = point.x / 4 * 3 + random.nextInt(50);
+                        int y = point.y / 4 * 3 + random.nextInt(50);
+                        log("distance: " + distance + ", centerHit: " + centerHit + ", total: " + total + ", percent: " + rate * 100 + "%" + ", jump_ratio = " + decimalFormat.format(jump_ratio));
+                        click(x, y, distance - a + random.nextInt(a), 2000 + random.nextInt(2000));
                     }
                 } else {
                     break;
                 }
             }
-            click_random(point.x / 2 + random.nextInt(point.x / 4), point.y / 2 + random.nextInt(point.y / 4), 5000, 2000 + random.nextInt(1000));
+            click(point.x / 2 + random.nextInt(point.x / 4), point.y / 2 + random.nextInt(point.y / 4), 1500, 2000 + random.nextInt(1000));
         } catch (Exception e) {
             e.printStackTrace();
         }

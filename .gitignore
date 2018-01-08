@@ -28,3 +28,4 @@ build/
 
 # Private
 signing.properties
+/as/app/release
