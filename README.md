@@ -6,7 +6,6 @@
 * 图片识别技术引用 https://github.com/burningcl/wechat_jump_hack
 * 自动由uiautomator实现
 * 分为两个版本 PC运行版(需要安装驱动)和手机安装版(需要Root)
-![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/2.png?raw=true)
 ## 如何使用
 ### PC运行版
 * 手机需要在开发者选项中开启Usb调试和Usb调试（安全设置）模拟点击
