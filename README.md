@@ -1,5 +1,6 @@
 # 微信——跳一跳自动辅助
-1月8号更新，降低了点击成功率提交成绩![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/2.png?raw=true)
+1月8号更新，降低了点击成功率提交成绩
+![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/2.png?raw=true)
 ![PNG](https://github.com/mzj21/wechat_jump_hack/blob/master/screenshots/1.png?raw=true)
 ## 介绍
 * 图片识别技术引用 https://github.com/burningcl/wechat_jump_hack
